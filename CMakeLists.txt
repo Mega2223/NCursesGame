@@ -10,6 +10,8 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 target_link_libraries(ConsoleTeste ${CURSES_LIBRARIES})
 
+target_link_libraries(ConsoleTeste m)
+
 #set(CMAKE_XX_COMPILER g++)
 
 #target_include_directories(

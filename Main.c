@@ -2,7 +2,7 @@
 // #include <GLFW/glfw3.h>
 
 #include <ncurses.h>
-
+#include <math.h>
 #include "Math.c"
 
 int main(){
@@ -15,16 +15,12 @@ int main(){
 
 	printw("Ola mundo :)\n");
 	
-	for(int i = 0; i < 20; i++){
+	for(int i = 0; i < 128; i++){
 		int ch = getch();
-		/*if(ch == KEY_F(1)){
-			printw("F1 :)\n");
-		} else {
-			printw("%c",ch);
-		}*/
-		addch(ch);
+		move(15+10*sin(i*0.1),i);
+		addch(ch | A_UNDERLINE);
 	}
-	
+
 	endwin();
 	
 	return 0;
