@@ -5,4 +5,9 @@ mkdir ./build
 
 cmake -S ./ -B ./build/
 cd ./build/
-make
+
+if not "make"; then
+	echo "compilation error"
+	exit -1
+fi
+

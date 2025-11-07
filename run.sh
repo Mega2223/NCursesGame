@@ -1,4 +1,7 @@
 #!/bin/sh
 
-./build.sh
-./build/ConsoleTeste
+if ./build.sh = 0; then
+	./build/ConsoleTeste
+else
+	echo "not running"
+fi
