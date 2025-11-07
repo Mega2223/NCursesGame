@@ -8,14 +8,16 @@ int main(){
 	initscr();
 	cbreak();
 	keypad(stdscr, TRUE);
-	// noecho();
+	noecho();
+
+	printw("Ola mundo :)\n");
 	
 	for(int i = 0; i < 20; i++){
-		printw("Ola mundo :)\n");
-
 		int ch = getch();
 		if(ch == KEY_F(1)){
-			printw("F1\n");
+			printw("F1 :)\n");
+		} else {
+			printw("%c",ch);
 		}
 	}
 
