@@ -2,14 +2,14 @@
 #define UTILS_C
 
 #include <ncurses.h>
-#include <stdio.h>
-#include<stdlib.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include"Math.c"
 
 #define FULL_CHAR 'O'
-#define DEBUG_DRAW true
+#define DEBUG_DRAW false
 
 int C = 0;
 
@@ -31,17 +31,18 @@ void renderLine(int bx, int by, int ex, int ey, char c){
 	int dx = (ex - bx);
 	int dy = (ey - by);
 
-	if(dx < 0){
-		int b = bx;
-		bx = ex; ex = b;
-		dx = -dx;
-	}
+	// if(dx < 0){
+	// 	int b = bx;
+	// 	bx = ex; ex = b;
+	// 	dx = -dx;
+	// }
 
-	if(dy < 0){
-		int b = by;
-		by = ey; ey = b;
-		dy = -dy;
-	}
+	// if(dy < 0){
+	// 	int b = by;
+	// 	by = ey; ey = b;
+	// 	dy = -dy;
+	// 	return;
+	// }
 
 	if(bx == ex && by == ey){
 		renderChar(bx,by,c);
@@ -49,21 +50,22 @@ void renderLine(int bx, int by, int ex, int ey, char c){
 	}
 
 	//clear();
-	move(2, 2);
-	printw("%d %d -> %d %d\ndx=%d\ndy=%d\n\n",bx,by,ex,ey,dx,dy);
-	refresh();
-
+	
+	if(DEBUG_DRAW){
+		move(2, 2);
+		printw("%d %d -> %d %d\ndx=%d\ndy=%d\n\n",bx,by,ex,ey,dx,dy);
+	}
 	for(int x = bx; dx != 0 && x <= ex; ++x){
-		refresh();
-		int d = dy/dx;
-		printw("d=%d dx=%d dy=%d x=%d y(x)=%d",d,dx,dy,x,by+x*d);
-		renderChar(x,by+(x-bx)*d,c);
+		float d = dy/(float)dx;
+		// printw("d=%d dx=%d dy=%d x=%d y(x)=%d",d,dx,dy,x,by+x*d);
+		renderChar(x,(int)(by+(x-bx)*d),c);
 	}
 	for(int y = by; dy != 0 && y < ey; ++y){
-		int d = dx/dy;
-		renderChar(bx+(y-by)*d,y,c);
+		float d = dx/(float)dy;
+		renderChar((int)(bx+(y-by)*d),y,c);
 	}
 	if(DEBUG_DRAW){
+		refresh();
 		usleep(1000 * 100);
 	};
 	
@@ -112,7 +114,7 @@ void render3D(float x, float y, float z, float* matrix, float scalar, float add)
 	vec4Plus(dest,add);
 	
 	//printf("renderAt %f %f",dest[0],dest[1]);
-	renderChar((int)dest[0], (int)dest[1], FULL_CHAR);
+	renderChar((int)dest[0], (int)dest[1], 'A');
 	//printf("Renderizando em %f f\n",dest[0],dest[1]);
 
 	free(dest);
@@ -120,15 +122,18 @@ void render3D(float x, float y, float z, float* matrix, float scalar, float add)
 }
 
 void renderModel(float** vertices, int vertexNumber, int** indices, int indexNumber, float* matrix){
-	// for(int i = 0; i < vertexNumber; i++){
-	// 	render3D(vertices[i][0],vertices[i][1],vertices[i][2],matrix, 10, 20);
-	// }
-
 	for(int i = 0; i < indexNumber; ++i){
 		float* v1 = vertices[indices[i][0]];
 		float* v2 = vertices[indices[i][1]];
-		//printw("(%f %f %f)->(%f %f %f)\n",v1[0], v1[1], v1[2], v2[0], v2[1], v2[2]);
 		render3DLine(v1[0], v1[1], v1[2], v2[0], v2[1], v2[2], matrix, 10,20);
+		if(DEBUG_DRAW){
+			move(6,0);
+			printw("(%f %f %f)->(%f %f %f)\n",v1[0], v1[1], v1[2], v2[0], v2[1], v2[2]);
+		}
+	}
+
+	for(int i = 0; i < vertexNumber; i++){
+		render3D(vertices[i][0],vertices[i][1],vertices[i][2],matrix, 10, 20);
 	}
 }
 

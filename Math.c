@@ -2,6 +2,7 @@
 #define MATH_C
 
 #include<ncurses.h>
+#include<math.h>
 
 void productVec4Mat4(float* vector, float* matrix, float* dest){
     for(int i = 0; i < 4; i++){
@@ -25,10 +26,29 @@ void vec4Plus(float* vector, float add){
 	}
 }
 
-void genRotationMatrix(float* dest, float* axis){
-	for(int i = 0; i < 16; ++i){
-		dest[i] = (i%4 == i/4) ? 1 : 0;
-	}	
+void genRotationMatrix(float* dest, float* rot){
+	// for(int i = 0; i < 16; ++i){
+		// dest[i] = (i%4 == i/4) ? 1 : 0;
+	// }
+	float rX = rot[0], rY = rot[1], rZ = rot[2];
+	float sX = sin(rX); float sY = sin(rY);
+    float sZ = sin(rZ);
+    float cX = cos(rX);
+    float cY = cos(rY);
+    float cZ = cos(rZ);
+    dest[0] = cZ * cY;
+    dest[1] = cZ * sY * sX - sZ * cX;
+    dest[2] = cZ * sY * cX + sZ * sX;
+    dest[3] = 0;
+    dest[4] = sZ * cY;
+    dest[5] = sZ * sY * sX + cZ * cX;
+    dest[6] = sZ * sY * cX - cZ * sX;
+    dest[7] = 0;
+    dest[8] = -sY;
+    dest[9] = cY * sX;
+    dest[10] = cY * cX;
+    dest[11] = dest[12] = dest[13] = dest[14] = 0;
+    dest[15] = 1;
 }
 
 void vec4Copy(float* from, float* dest){
