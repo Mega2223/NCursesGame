@@ -9,26 +9,12 @@
 #include "Utils.c"
 
 int main(){
-	//printf("olá mundo");
-	
 	initscr();
 	cbreak();
 	keypad(stdscr, TRUE);
 	noecho();
 
 	printw("Ola mundo :)\n");
-	
-	// if(true){
-	// 	renderLine(10,10,30,30,'C');
-	// 	renderLine(10,10,30,10,'C');
-	// 	return 0;
-	// }
-
-	//for(int i = 0; i < 128; i++){
-		//int ch = getch();
-		//move(15+10*sin(i*0.1),i);
-		//addch(ch | A_UNDERLINE);
-	//}
 	
 	float** cube = malloc(8*sizeof(float*));
 	
@@ -82,47 +68,20 @@ int main(){
 
 	indexN = c;
 
-	// int the[] = {
-	// 	0, 1, 2,  1, 3, 4,  5, 6, 7,
-    //     8, 9, 10,  2, 4, 8,  11, 8, 6,
-    //     0, 12, 1,  1, 13, 3,  5, 11, 6,
-    //     8, 4, 9,  2, 1, 4,  11, 2, 8
-	// };
-
-	// getch();
-
-	//debugMat4(rotationMatrix);
-	// if(false){
-	// 	endwin();
-	// 	debugMat4(rotationMatrix);
-	// 	printf("\nCUBE:\n");
-	// 	for(int i = 0; i < 8; ++i){
-	// 		printf("%f %f %f\n",cube[i][0],cube[i][1],cube[i][2]);
-	// 	}
-	// 	return 0;
-	// }
-
-	//  0  1  2  3
-	//  4  5  6  7
-	//  8  9 10 11
-	// 12 13 14 15
-
 	float rotation[] = {0,0,0,0};
 
 	for(int i = 0; i < 16*1200; ++i){
 		rotation[0] += 0.1F;
 		rotation[1] += 0.12F;
-		// rotation[2] += 0.1F;
+		rotation[2] += 0.13F;
+
 		float* rotationMatrix = malloc(16*sizeof(float));
 		genRotationMatrix(rotationMatrix,rotation);
 
-		// debugMat4(rotationMatrix);
-		// getch();
 
 		clear();
 		printw("F %d",i);
 		renderModel(cube,8,indices,indexN,rotationMatrix);
-		// getch();
 		refresh();
 		if(DEBUG_DRAW){
 			getch();

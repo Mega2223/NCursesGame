@@ -27,9 +27,6 @@ void vec4Plus(float* vector, float add){
 }
 
 void genRotationMatrix(float* dest, float* rot){
-	// for(int i = 0; i < 16; ++i){
-		// dest[i] = (i%4 == i/4) ? 1 : 0;
-	// }
 	float rX = rot[0], rY = rot[1], rZ = rot[2];
 	float sX = sin(rX); float sY = sin(rY);
     float sZ = sin(rZ);
@@ -58,11 +55,6 @@ void vec4Copy(float* from, float* dest){
 }
 
 void debugMat4(float* debug){
-	// 0  1  2  3
-	// 4  5  6  7
-	// 8  9  10 11
-	// 12 13 14 15
-
 	printw("\nMat:\n");
 	for(int i = 0; i < 16; ++i){
 		int c = i%4; int r = i/4;

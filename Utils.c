@@ -14,9 +14,6 @@
 int C = 0;
 
 void renderChar(int x, int y, char c){
-	// move(0,0);
-	// printw("\n>> %d %d",x,y);
-	// move(10,10);
 	move(y,2*x);
 	addch(c);
 	if(DEBUG_DRAW){
@@ -31,25 +28,10 @@ void renderLine(int bx, int by, int ex, int ey, char c){
 	int dx = (ex - bx);
 	int dy = (ey - by);
 
-	// if(dx < 0){
-	// 	int b = bx;
-	// 	bx = ex; ex = b;
-	// 	dx = -dx;
-	// }
-
-	// if(dy < 0){
-	// 	int b = by;
-	// 	by = ey; ey = b;
-	// 	dy = -dy;
-	// 	return;
-	// }
-
 	if(bx == ex && by == ey){
 		renderChar(bx,by,c);
 		return;
 	}
-
-	//clear();
 	
 	if(DEBUG_DRAW){
 		move(2, 2);
@@ -57,7 +39,6 @@ void renderLine(int bx, int by, int ex, int ey, char c){
 	}
 	for(int x = bx; dx != 0 && x <= ex; ++x){
 		float d = dy/(float)dx;
-		// printw("d=%d dx=%d dy=%d x=%d y(x)=%d",d,dx,dy,x,by+x*d);
 		renderChar(x,(int)(by+(x-bx)*d),c);
 	}
 	for(int y = by; dy != 0 && y < ey; ++y){
@@ -91,9 +72,6 @@ void render3DLine(float bx, float by, float bz, float ex, float ey, float ez, fl
 	vec4Plus(beg,add);
 	vec4Plus(end,add);
 
-	// move(0,0);
-	// printw("%.3f %.3f %.3f => %.3f %.3f %.3f",beg[0],beg[1],beg[2],end[0],end[1],end[2]);
-
 	renderLine((int)beg[0], (int)beg[1],  (int)end[0], (int)end[1], FULL_CHAR);
 
 	free(beg); free(end); free(buffer);
@@ -104,18 +82,13 @@ void render3D(float x, float y, float z, float* matrix, float scalar, float add)
 	float* dest = malloc(4*sizeof(float));
 
 	vec3[0] = x; vec3[1] = y; vec3[2] = z; vec3[3] = 0;
-	//printf("espaço %f %f %f\n",x,y,z);
 
 	productVec4Mat4(vec3,matrix,dest);
 	
-	//printf("matriciado %f %f %f",dest[0],dest[1],dest[2]);
-
 	vec4TimesScalar(dest,scalar);
 	vec4Plus(dest,add);
 	
-	//printf("renderAt %f %f",dest[0],dest[1]);
 	renderChar((int)dest[0], (int)dest[1], 'A');
-	//printf("Renderizando em %f f\n",dest[0],dest[1]);
 
 	free(dest);
 	free(vec3);
