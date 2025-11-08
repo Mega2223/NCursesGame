@@ -4,8 +4,8 @@
 #include<ncurses.h>
 
 void productVec4Mat4(float* vector, float* matrix, float* dest){
-    for(int i = 0; i < 16; i++){
-	dest[i] = 0;
+    for(int i = 0; i < 4; i++){
+		dest[i] = 0;
     }	
     for (int i = 0; i < 16; i++) {
         int c = i%4, r = i/4;
@@ -19,7 +19,7 @@ void vec4TimesScalar(float* vector, float scalar){
 	}
 }
 
-void vec4PlusScalar(float* vector, float add){
+void vec4Plus(float* vector, float add){
 	for(int i = 0; i < 4; ++i){
 		vector[i] += add;
 	}
@@ -31,18 +31,24 @@ void genRotationMatrix(float* dest, float* axis){
 	}	
 }
 
+void vec4Copy(float* from, float* dest){
+	for(int i = 0; i < 4; ++i){
+		dest[i] = from[i];
+	}
+}
+
 void debugMat4(float* debug){
 	// 0  1  2  3
 	// 4  5  6  7
 	// 8  9  10 11
 	// 12 13 14 15
 
-	printf("\nMat:\n");
+	printw("\nMat:\n");
 	for(int i = 0; i < 16; ++i){
 		int c = i%4; int r = i/4;
-		printf("%f ",debug[i]);
+		printw("%f ",debug[i]);
 		if(c == 3){
-			printf("\n");
+			printw("\n");
 		}
 	}
 }
