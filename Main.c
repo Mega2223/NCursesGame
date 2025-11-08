@@ -3,8 +3,6 @@
 
 #include <stdlib.h>
 #include <ncurses.h>
-#include <math.h>
-#include <stdio.h>
 #include "Math.c"
 #include "Utils.c"
 
@@ -71,9 +69,9 @@ int main(){
 	float rotation[] = {0,0,0,0};
 
 	for(int i = 0; i < 16*1200; ++i){
-		rotation[0] += 0.1F;
-		rotation[1] += 0.12F;
-		rotation[2] += 0.13F;
+		rotation[0] += 0.005F;
+		rotation[1] += 0.006F;
+		rotation[2] += 0.0077F;
 
 		float* rotationMatrix = malloc(16*sizeof(float));
 		genRotationMatrix(rotationMatrix,rotation);
@@ -86,7 +84,7 @@ int main(){
 		if(DEBUG_DRAW){
 			getch();
 		} else {
-			usleep(10000*10);
+			usleep(1000*10);
 		}
 	}
 
